@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="このサイトについて | パスワード生成ツール"
+  description="パスワード生成（pasuwadoseisei.com）は、安全なパスワードを無料で生成できるWebツールです。すべての処理はブラウザ上で完結し、お客様のパスワードがサーバーに送信されることはありません。"
+  canonical="https://www.pasuwadoseisei.com/about"
+  breadcrumbs={[{label:'TOP', href:'/'},{label:'このサイトについて'}]}
+>
+  <article style="padding:32px 0 60px;max-width:800px;">
+    <h1 style="font-size:32px;font-weight:900;margin-bottom:16px;">このサイトについて</h1>
+
+    <section style="margin-bottom:40px;">
+      <h2>パスワード生成とは</h2>
+      <p>「パスワード生成」（pasuwadoseisei.com）は、安全で強力なパスワードを無料で生成できるWebツールです。インターネットユーザーの皆様が、簡単かつ安全にパスワードを作成できることを使命としています。</p>
+      <p>2024年に開設し、以来多くのユーザーにご利用いただいています。パスワード生成8桁をはじめ、12桁・16桁・強力なパスワード・PINコードなど、様々なニーズに対応したツールを提供しています。</p>
+    </section>
+
+    <section style="margin-bottom:40px;">
+      <h2>安全性へのこだわり</h2>
+      <p>当サイトが提供するパスワード生成ツールは、以下の理由から安全にご利用いただけます：</p>
+      <ul>
+        <li><strong>100%ブラウザ完結</strong>：すべてのパスワード生成処理はお客様のブラウザ上で行われます。生成されたパスワードがサーバーに送信されることは一切ありません。</li>
+        <li><strong>暗号論的乱数</strong>：ブラウザの <code>Crypto.getRandomValues()</code> APIを使用し、セキュリティ業界で認められた暗号論的に安全な乱数生成を行っています。</li>
+        <li><strong>HTTPS通信</strong>：すべての通信は暗号化されています。</li>
+        <li><strong>データ保存なし</strong>：当サイトはお客様のパスワードや個人情報を一切保存しません。</li>
+      </ul>
+    </section>
+
+    <section style="margin-bottom:40px;">
+      <h2>運営者情報</h2>
+      <dl style="display:grid;grid-template-columns:auto 1fr;gap:12px 24px;">
+        <dt style="font-weight:700;">運営者</dt>
+        <dd>Yosin</dd>
+        <dt style="font-weight:700;">開設日</dt>
+        <dd>2024年</dd>
+        <dt style="font-weight:700;">所在地</dt>
+        <dd>日本</dd>
+        <dt style="font-weight:700;">お問い合わせ</dt>
+        <dd><a href="/contact">お問い合わせフォーム</a>よりご連絡ください</dd>
+      </dl>
+    </section>
+
+    <section>
+      <h2>サイトの特徴</h2>
+      <ul>
+        <li><strong>12種類のツール</strong>：様々な用途に対応したパスワード生成ツールを提供</li>
+        <li><strong>22のブログ記事</strong>：パスワードセキュリティに関する役立つ情報を発信</li>
+        <li><strong>完全無料</strong>：すべての機能を無料でご利用いただけます</li>
+        <li><strong>インストール不要</strong>：ブラウザさえあればすぐに使えます</li>
+      </ul>
+    </section>
+  </article>
+</BaseLayout>

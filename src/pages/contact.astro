@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="お問い合わせ"
+  description="パスワード生成に関するお問い合わせはこちらから。不具合の報告やご要望など、お気軽にご連絡ください。"
+  canonical="https://www.pasuwadoseisei.com/contact"
+  breadcrumbs={[{label:'TOP', href:'/'},{label:'お問い合わせ'}]}
+  noindex
+>
+  <article style="padding:32px 0 60px;max-width:700px;">
+    <h1 style="font-size:32px;font-weight:900;margin-bottom:16px;">お問い合わせ</h1>
+    <p style="color:var(--text-secondary);margin-bottom:32px;">パスワード生成に関するお問い合わせは、以下のメールアドレスまでご連絡ください。</p>
+
+    <div class="card" style="text-align:center;padding:48px;">
+      <p style="font-size:18px;margin-bottom:8px;font-weight:600;">メールでのお問い合わせ</p>
+      <p style="font-size:24px;font-weight:700;color:var(--primary);word-break:break-all;">contact@pasuwadoseisei.com</p>
+      <p style="font-size:14px;color:var(--text-secondary);margin-top:16px;">お問い合わせ内容を確認次第、順次ご返信いたします。</p>
+    </div>
+
+    <section style="margin-top:40px;">
+      <h2>よくあるお問い合わせ</h2>
+      <p>お問い合わせの前に、<a href="/blog">ブログ記事</a>や各ツールページのFAQもご確認ください。多くの疑問点はこちらで解決できる場合があります。</p>
+    </section>
+  </article>
+</BaseLayout>

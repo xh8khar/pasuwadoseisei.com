@@ -1,0 +1,112 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+---
+
+<ToolLayout
+  title="Unixタイムスタンプ変換 | 日時と相互変換"
+  description="Unixタイムスタンプと日時の相互変換。現在のタイムスタンプ取得、任意の日時からタイムスタンプを計算。"
+  toolTitle="タイムスタンプ変換"
+  toolDescription="Unixタイムスタンプ（エポック秒）と日時を相互変換します。小数点以下のミリ秒にも対応。"
+  canonical="https://www.pasuwadoseisei.com/tools/timestamp-converter"
+  breadcrumbs={[{label:'TOP', href:'/'},{label:'ツール一覧', href:'/tools'},{label:'タイムスタンプ変換'}]}
+>
+  <div slot="tool" id="ts-tool">
+    <div class="ts-section">
+      <h3 class="ts-heading">タイムスタンプ → 日時</h3>
+      <div class="ts-row">
+        <input type="text" id="ts-input" class="regex-input" value="" placeholder="例: 1700000000" aria-label="Unixタイムスタンプ" style="flex:1;" />
+        <button class="btn btn-primary" id="ts-to-date">変換</button>
+      </div>
+      <div class="result-box" id="ts-result" style="cursor:auto;user-select:all;margin-top:8px;min-height:44px;font-size:18px;">結果がここに表示されます</div>
+    </div>
+    <div class="ts-section" style="margin-top:32px;">
+      <h3 class="ts-heading">日時 → タイムスタンプ</h3>
+      <div class="ts-row">
+        <input type="datetime-local" id="ts-datetime" class="regex-input" aria-label="日時" style="flex:1;" />
+        <button class="btn btn-primary" id="ts-to-ts">変換</button>
+      </div>
+      <div class="result-box" id="ts-result2" style="cursor:auto;user-select:all;margin-top:8px;min-height:44px;font-size:18px;">結果がここに表示されます</div>
+    </div>
+    <div class="ts-section" style="margin-top:32px;">
+      <h3 class="ts-heading">現在のタイムスタンプ</h3>
+      <div class="ts-row" style="justify-content:space-between;">
+        <span style="font-size:28px;font-weight:900;color:var(--primary);font-feature-settings:'tnum';" id="ts-now">-</span>
+        <button class="btn btn-secondary btn-sm" id="ts-copy-now">コピー</button>
+      </div>
+    </div>
+  </div>
+  <section slot="content">
+    <h2>Unixタイムスタンプとは</h2>
+    <p>Unixタイムスタンプは、1970年1月1日 00:00:00 UTCからの経過秒数です。システム開発やAPIで広く使用されています。</p>
+    <h3>使用シーン</h3>
+    <ul>
+      <li>APIレスポンスの日時確認</li>
+      <li>ログファイルのタイムスタンプ解読</li>
+      <li>データベースの日時値確認</li>
+      <li>JWTトークンの有効期限確認</li>
+    </ul>
+    <RelatedTools />
+  </section>
+</ToolLayout>
+
+<script>
+(function() {
+  const tsInput = document.getElementById('ts-input');
+  const tsResult = document.getElementById('ts-result');
+  const dtInput = document.getElementById('ts-datetime');
+  const tsResult2 = document.getElementById('ts-result2');
+  const nowSpan = document.getElementById('ts-now');
+
+  const jst = new Date().toLocaleString('sv-SE', {timeZone: 'Asia/Tokyo'}).slice(0, 16);
+  if (dtInput) dtInput.value = jst;
+
+  function updateNow() {
+    if (nowSpan) nowSpan.textContent = Math.floor(Date.now() / 1000);
+  }
+  updateNow();
+  setInterval(updateNow, 1000);
+
+  document.getElementById('ts-to-date')?.addEventListener('click', function() {
+    const val = tsInput.value.trim();
+    if (!val) { tsResult.textContent = '(タイムスタンプを入力してください)'; return; }
+    const sec = parseFloat(val);
+    if (isNaN(sec)) { tsResult.textContent = '(有効な数値を入力してください)'; return; }
+    const d = new Date(sec * 1000);
+    tsResult.textContent = d.toLocaleString('ja-JP', {timeZone: 'Asia/Tokyo'}) + ' JST';
+  });
+
+  document.getElementById('ts-to-ts')?.addEventListener('click', function() {
+    const val = dtInput.value;
+    if (!val) { tsResult2.textContent = '(日時を選択してください)'; return; }
+    const d = new Date(val);
+    tsResult2.textContent = Math.floor(d.getTime() / 1000);
+  });
+
+  document.getElementById('ts-copy-now')?.addEventListener('click', function() {
+    navigator.clipboard.writeText(nowSpan.textContent);
+  });
+})();
+</script>
+
+<style>
+  .regex-input {
+    padding: 12px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: 16px;
+    background: var(--bg);
+    color: var(--text);
+    transition: border-color var(--transition);
+  }
+  .regex-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-light);
+  }
+  .ts-heading { font-size: 16px; font-weight: 700; margin-bottom: 10px; color: var(--text); }
+  .ts-row { display: flex; gap: 12px; align-items: center; }
+  .ts-section { padding: 20px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); }
+  .result-box { cursor: auto; user-select: all; }
+</style>

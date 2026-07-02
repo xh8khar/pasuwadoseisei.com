@@ -1,0 +1,74 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const tools = [
+  { title: '文字数カウンター', desc: '文字数・バイト数・行数をリアルタイムに計測', href: '/tools/character-counter' },
+  { title: '全角半角変換', desc: '全角英数字・記号・カタカナを半角に変換', href: '/tools/zenkaku-hankaku' },
+  { title: 'URLエンコード/デコード', desc: 'URLのパーセントエンコード・デコード変換', href: '/tools/url-encode-decode' },
+  { title: 'Base64変換', desc: 'テキストのBase64エンコード・デコード', href: '/tools/base64' },
+  { title: 'ハッシュ生成', desc: 'MD5/SHA-1/SHA-256/SHA-512ハッシュ値計算', href: '/tools/hash-generator' },
+  { title: 'JSON整形/バリデーション', desc: 'JSONデータのフォーマット・圧縮・検証', href: '/tools/json-formatter' },
+  { title: '正規表現テスター', desc: '正規表現パターンをリアルタイムにテスト', href: '/tools/regex-tester' },
+  { title: 'タイムスタンプ変換', desc: 'Unixタイムスタンプと日時の相互変換', href: '/tools/timestamp-converter' },
+  { title: 'カラーコード変換', desc: 'HEX/RGB/HSLカラーコードを相互変換', href: '/tools/color-converter' },
+  { title: 'UUID生成', desc: 'UUID v4を生成・一括生成', href: '/tools/uuid-generator' },
+  { title: 'テキスト比較', desc: '2つのテキストの差分を色分け表示', href: '/tools/text-diff' },
+  { title: 'パスワード強度チェッカー', desc: 'パスワードの安全性をリアルタイム診断', href: '/tools/password-strength-checker' },
+];
+
+const passwordTools = [
+  { title: 'パスワード生成（標準）', desc: '文字数や文字種を細かく指定してパスワードを生成', href: '/tools/password-generator' },
+  { title: '8桁パスワード生成', desc: 'ちょうど8桁の覚えやすいパスワードを作成', href: '/tools/8-digit-password-generator' },
+  { title: '12桁パスワード生成', desc: '12桁の高セキュリティパスワードを生成', href: '/tools/12-digit-password-generator' },
+  { title: '16桁パスワード生成', desc: '最高レベルのセキュリティを誇る16桁パスワード', href: '/tools/16-digit-password-generator' },
+  { title: '強力なパスワード生成', desc: '大文字・小文字・数字・記号を全て含む最強パスワード', href: '/tools/strong-password-generator' },
+  { title: 'ランダムパスワード生成', desc: '完全ランダムな高セキュリティパスワード', href: '/tools/random-password-generator' },
+  { title: '暗証番号(PIN)生成', desc: '4桁〜8桁の数字のみの暗証番号を生成', href: '/tools/pin-generator' },
+  { title: 'ID・ユーザー名生成', desc: 'ランダムな英数字のIDを生成', href: '/tools/id-generator' },
+  { title: '一括パスワード生成', desc: '複数のパスワードを一度にまとめて生成', href: '/tools/bulk-password-generator' },
+  { title: '覚えやすいパスワード生成', desc: '単語を組み合わせた覚えやすい安全なパスワード', href: '/tools/memorable-password-generator' },
+  { title: '記号入りパスワード生成', desc: '特殊記号を含む複雑なパスワードを生成', href: '/tools/special-character-password' },
+  { title: 'Excel向けパスワード生成', desc: 'Excelで使いやすい記号を含まないパスワード', href: '/tools/excel-password-generator' },
+];
+---
+
+<BaseLayout title="便利ツール一覧 | 全24種類の無料オンラインツール" description="パスワード生成、文字数カウント、全角半角変換、URLエンコードなど、毎日使える便利なオンラインツールを全24種類無料で提供。ブラウザ完結で安全。" breadcrumbs={[{label:'TOP', href:'/'},{label:'ツール一覧'}]}>
+  <section class="tools-page">
+    <div class="tools-header">
+      <h1>便利ツール一覧</h1>
+      <p>毎日使える便利なオンラインツールを無料で提供。すべてブラウザ上で完結し、サーバーにデータが送信されることはありません。</p>
+    </div>
+
+    <h2 class="section-title" style="font-size:22px;margin-bottom:20px;">デイリーツール</h2>
+    <div class="tool-grid" style="margin-bottom:48px;">
+      {tools.map(t => (
+        <a href={t.href} class="tool-card">
+          <h3>{t.title}</h3>
+          <p>{t.desc}</p>
+        </a>
+      ))}
+    </div>
+
+    <h2 class="section-title" style="font-size:22px;margin-bottom:20px;">パスワード生成ツール</h2>
+    <div class="tool-grid">
+      {passwordTools.map(t => (
+        <a href={t.href} class="tool-card">
+          <h3>{t.title}</h3>
+          <p>{t.desc}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .tools-page { padding: 24px 0 60px; }
+  .tools-header { margin-bottom: 40px; }
+  .tools-header h1 { font-size: 32px; font-weight: 900; margin-bottom: 12px; letter-spacing: -0.02em; }
+  .tools-header p { color: var(--text-secondary); line-height: 1.7; max-width: 640px; }
+
+  @media (max-width: 768px) {
+    .tools-page { padding: 16px 0 40px; }
+    .tools-header h1 { font-size: 24px; }
+  }
+</style>

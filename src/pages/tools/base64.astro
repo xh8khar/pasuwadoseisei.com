@@ -1,0 +1,102 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+---
+
+<ToolLayout
+  title="Base64エンコード/デコード | オンライン変換ツール"
+  description="テキストのBase64エンコード・デコードをリアルタイムに実行。UTF-8対応。ファイルデータの変換やAPI連携に最適。"
+  toolTitle="Base64 エンコード / デコード"
+  toolDescription="テキストのBase64エンコードおよびデコードを実行します。UTF-8エンコーディングに対応し、日本語も正確に変換。"
+  canonical="https://www.pasuwadoseisei.com/tools/base64"
+  breadcrumbs={[{label:'TOP', href:'/'},{label:'ツール一覧', href:'/tools'},{label:'Base64'}]}
+>
+  <div slot="tool" id="base64-tool">
+    <div class="input-group">
+      <label class="input-label">入力</label>
+      <textarea id="b64-input" class="counter-textarea" placeholder="エンコードまたはデコードするテキスト..." rows="4" aria-label="入力テキスト"></textarea>
+    </div>
+    <div class="generator-actions" style="margin-top:12px;">
+      <button class="btn btn-primary" id="b64-encode">エンコード</button>
+      <button class="btn btn-primary" id="b64-decode">デコード</button>
+      <button class="btn btn-secondary" id="b64-clear" style="margin-left:4px;">クリア</button>
+    </div>
+    <div class="input-group" style="margin-top:20px;">
+      <label class="input-label">結果</label>
+      <div class="result-box" id="b64-result" style="cursor:auto;user-select:all;margin-top:8px;">結果がここに表示されます</div>
+      <button class="btn btn-sm btn-secondary" id="b64-copy" style="margin-top:8px;">結果をコピー</button>
+    </div>
+  </div>
+  <section slot="content">
+    <h2>Base64とは</h2>
+    <p>Base64は、バイナリデータをテキスト形式で表現するためのエンコード方式です。メールの添付ファイルやWebのデータ転送など、様々な場面で使用されています。</p>
+    <h3>使用シーン</h3>
+    <ul>
+      <li>API認証ヘッダーの作成</li>
+      <li>画像データの埋め込み（Data URL）</li>
+      <li>メール添付ファイルの送信</li>
+      <li>JSON内でのバイナリデータの受け渡し</li>
+    </ul>
+    <RelatedTools />
+  </section>
+</ToolLayout>
+
+<script>
+(function() {
+  const input = document.getElementById('b64-input');
+  const result = document.getElementById('b64-result');
+  if (!input || !result) return;
+
+  document.getElementById('b64-encode')?.addEventListener('click', function() {
+    try {
+      result.textContent = btoa(unescape(encodeURIComponent(input.value)));
+    } catch(e) {
+      result.textContent = 'エンコードに失敗しました';
+    }
+  });
+  document.getElementById('b64-decode')?.addEventListener('click', function() {
+    try {
+      result.textContent = decodeURIComponent(escape(atob(input.value)));
+    } catch(e) {
+      result.textContent = 'デコードに失敗しました。正しいBase64形式ではありません。';
+    }
+  });
+  document.getElementById('b64-clear')?.addEventListener('click', function() {
+    input.value = '';
+    result.textContent = '結果がここに表示されます';
+    input.focus();
+  });
+  document.getElementById('b64-copy')?.addEventListener('click', function() {
+    const text = result.textContent;
+    if (text && text !== '結果がここに表示されます') {
+      navigator.clipboard.writeText(text);
+    }
+  });
+})();
+</script>
+
+<style>
+  .counter-textarea {
+    width: 100%;
+    padding: 14px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: 15px;
+    line-height: 1.6;
+    resize: vertical;
+    min-height: 100px;
+    background: var(--bg);
+    color: var(--text);
+    transition: border-color var(--transition);
+  }
+  .counter-textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-light);
+  }
+  .counter-textarea::placeholder { color: var(--text-tertiary); }
+  .input-group { display: flex; flex-direction: column; }
+  .input-label { font-size: 13px; font-weight: 600; color: var(--text-secondary); margin-bottom: 6px; }
+  .result-box { cursor: auto; user-select: all; word-break: break-all; }
+</style>

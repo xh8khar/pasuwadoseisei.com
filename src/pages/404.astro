@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="ページが見つかりません" description="お探しのページは見つかりませんでした。URLをご確認いただくか、トップページからお探しください。" noindex noPrefix>
+  <main class="not-found">
+    <h1>404</h1>
+    <p>お探しのページは移動または削除された可能性があります。</p>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+      <a href="/" class="btn btn-primary btn-lg">トップページに戻る</a>
+      <a href="/tools" class="btn btn-secondary btn-lg">ツール一覧を見る</a>
+      <a href="/blog" class="btn btn-secondary btn-lg">ブログ記事一覧</a>
+    </div>
+  </main>
+</BaseLayout>

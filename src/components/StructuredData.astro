@@ -1,0 +1,171 @@
+---
+const site = 'https://www.pasuwadoseisei.com';
+const siteName = 'パスワード生成';
+const description = 'パスワード生成の無料オンラインツール。8桁・12桁・16桁の強力なパスワードを簡単に作成できます。大文字小文字数字記号を組み合わせた安全なパスワードを自動生成。';
+const lang = 'ja';
+
+export type SchemaType = 'website' | 'organization' | 'breadcrumb' | 'faq' | 'howto' | 'softwareapp' | 'article' | 'webpage';
+
+export interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+export interface HowToStep {
+  name: string;
+  text: string;
+  image?: string;
+}
+
+export interface BreadcrumbItem {
+  name: string;
+  item: string;
+}
+
+interface Props {
+  type: SchemaType;
+  data?: Record<string, any>;
+}
+
+const { type, data = {} } = Astro.props;
+
+function buildSchema(): Record<string, any> {
+  switch (type) {
+    case 'website':
+      return {
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        name: siteName,
+        url: site,
+        description,
+        inLanguage: lang,
+        potentialAction: {
+          '@type': 'SearchAction',
+          target: {
+            '@type': 'EntryPoint',
+            urlTemplate: `${site}/search?q={search_term_string}`,
+          },
+          'query-input': 'required name=search_term_string',
+        },
+      };
+
+    case 'organization':
+      return {
+        '@context': 'https://schema.org',
+        '@type': 'Organization',
+        name: siteName,
+        url: site,
+        description,
+        foundingDate: '2024',
+        founders: [{ '@type': 'Person', name: 'Yosin' }],
+        sameAs: [],
+      };
+
+    case 'breadcrumb':
+      return {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: (data.items as BreadcrumbItem[] || []).map((item, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          name: item.name,
+          item: item.item.startsWith('http') ? item.item : `${site}${item.item}`,
+        })),
+      };
+
+    case 'faq':
+      return {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: (data.items as FAQItem[] || []).map(item => ({
+          '@type': 'Question',
+          name: item.question,
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: item.answer,
+          },
+        })),
+      };
+
+    case 'howto':
+      return {
+        '@context': 'https://schema.org',
+        '@type': 'HowTo',
+        name: data.name || '',
+        description: data.description || '',
+        step: (data.steps as HowToStep[] || []).map(step => ({
+          '@type': 'HowToStep',
+          name: step.name,
+          text: step.text,
+        })),
+      };
+
+    case 'softwareapp':
+      return {
+        '@context': 'https://schema.org',
+        '@type': 'SoftwareApplication',
+        name: data.name || siteName,
+        applicationCategory: 'UtilityApplication',
+        operatingSystem: 'All',
+        offers: {
+          '@type': 'Offer',
+          price: '0',
+          priceCurrency: 'JPY',
+        },
+        description: data.description || description,
+        url: data.url || site,
+      };
+
+    case 'article':
+      return {
+        '@context': 'https://schema.org',
+        '@type': 'Article',
+        headline: data.headline || '',
+        description: data.description || '',
+        author: {
+          '@type': 'Person',
+          name: 'Yosin',
+          url: `${site}/about`,
+        },
+        publisher: {
+          '@type': 'Organization',
+          name: siteName,
+          url: site,
+          logo: {
+            '@type': 'ImageObject',
+            url: `${site}/favicon.svg`,
+          },
+        },
+        datePublished: data.datePublished || '',
+        dateModified: data.dateModified || data.datePublished || '',
+        mainEntityOfPage: {
+          '@type': 'WebPage',
+          '@id': data.url || site,
+        },
+      };
+
+    case 'webpage':
+      return {
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: data.name || siteName,
+        description: data.description || description,
+        url: data.url || site,
+        inLanguage: lang,
+        isPartOf: {
+          '@type': 'WebSite',
+          '@id': `${site}/#website`,
+        },
+      };
+
+    default:
+      return {};
+  }
+}
+
+const schema = buildSchema();
+---
+
+{schema['@type'] && (
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+)}

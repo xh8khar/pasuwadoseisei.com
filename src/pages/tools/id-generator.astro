@@ -1,0 +1,139 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+---
+
+<ToolLayout
+  title="ID・ユーザー名生成 | ランダムな英数字IDを無料作成"
+  description="ランダムな英数字のID・ユーザー名を無料で生成。アカウント作成時に使える一意のIDを簡単に作成できます。文字数や文字種をカスタマイズ可能。"
+  toolTitle="ID・ユーザー名生成ツール"
+  toolDescription="アカウント作成時に使えるランダムなID・ユーザー名を生成します。英数字の組み合わせで、他のユーザーと重複しにくいユニークなIDを作成できます。"
+  canonical="https://www.pasuwadoseisei.com/tools/id-generator"
+  breadcrumbs={[{label:'TOP', href:'/'},{label:'ツール一覧', href:'/tools'},{label:'ID・ユーザー名生成'}]}
+>
+  <div slot="tool" class="id-generator" id="id-gen">
+    <div class="result-box" id="id-result">クリックして生成</div>
+    <div class="options-grid">
+      <label class="option-label">
+        <span>文字数:</span>
+        <select id="id-length">
+          <option value="6">6文字</option>
+          <option value="8" selected>8文字</option>
+          <option value="10">10文字</option>
+          <option value="12">12文字</option>
+          <option value="16">16文字</option>
+        </select>
+      </label>
+      <label class="option-label">
+        <span>形式:</span>
+        <select id="id-format">
+          <option value="alphanumeric">英数字</option>
+          <option value="alphabetic">英字のみ</option>
+          <option value="numeric">数字のみ</option>
+          <option value="lowercase">英小文字+数字</option>
+        </select>
+      </label>
+      <label class="option-label">
+        <input type="checkbox" id="id-prefix" /> 接頭辞を追加
+      </label>
+    </div>
+    <div class="generator-actions">
+      <button class="btn btn-primary btn-lg" id="id-generate">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+        IDを生成
+      </button>
+      <button class="btn btn-secondary btn-lg" id="id-copy">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        コピー
+      </button>
+    </div>
+  </div>
+  <section slot="content">
+    <h2>ID・ユーザー名生成について</h2>
+    <p>新しいサービスに登録する際、自分で考えたユーザー名が既に使われていることはよくあります。このツールを使えば、一意で覚えやすいIDを簡単に作成できます。</p>
+
+    <h3>こんな方におすすめ</h3>
+    <ul>
+      <li>ゲームのアカウント名が必要な方</li>
+      <li>SNSのユーザー名をお探しの方</li>
+      <li>社内システムのIDを発行する管理者の方</li>
+      <li>使い捨てのテストアカウントを作成したい方</li>
+    </ul>
+
+    <RelatedTools />
+  </section>
+</ToolLayout>
+
+<script>
+(function() {
+  const result = document.getElementById('id-result');
+  const generateBtn = document.getElementById('id-generate');
+  const copyBtn = document.getElementById('id-copy');
+  const lengthSelect = document.getElementById('id-length');
+  const formatSelect = document.getElementById('id-format');
+  const prefixCheck = document.getElementById('id-prefix');
+
+  function generateID() {
+    const length = parseInt(lengthSelect.value);
+    const format = formatSelect.value;
+    let chars = '';
+    
+    switch(format) {
+      case 'alphanumeric': chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'; break;
+      case 'alphabetic': chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'; break;
+      case 'numeric': chars = '0123456789'; break;
+      case 'lowercase': chars = 'abcdefghijklmnopqrstuvwxyz0123456789'; break;
+    }
+
+    let id = '';
+    for (let i = 0; i < length; i++) {
+      id += chars[Math.floor(Math.random() * chars.length)];
+    }
+
+    if (prefixCheck.checked) {
+      const prefixes = ['user_', 'id_', 'member_', 'acc_', 'guest_'];
+      id = prefixes[Math.floor(Math.random() * prefixes.length)] + id;
+    }
+
+    return id;
+  }
+
+  function updateID() {
+    result.textContent = generateID();
+    result.classList.remove('copied');
+  }
+
+  function copyID() {
+    const text = result.textContent;
+    if (!text || text === 'クリックして生成') return;
+    navigator.clipboard.writeText(text).then(() => {
+      result.classList.add('copied');
+      const toast = document.getElementById('toast') || (() => {
+        const t = document.createElement('div');
+        t.id = 'toast';
+        t.className = 'toast';
+        document.body.appendChild(t);
+        return t;
+      })();
+      toast.textContent = 'コピーしました！';
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2000);
+    });
+  }
+
+  generateBtn.addEventListener('click', updateID);
+  copyBtn.addEventListener('click', copyID);
+  result.addEventListener('click', copyID);
+  lengthSelect.addEventListener('change', updateID);
+  formatSelect.addEventListener('change', updateID);
+  prefixCheck.addEventListener('change', updateID);
+  updateID();
+})();
+</script>
+
+<style>
+  .id-generator { width: 100%; }
+  .generator-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px; }
+  .result-box { cursor: pointer; }
+  .result-box:hover { border-color: var(--primary); }
+</style>

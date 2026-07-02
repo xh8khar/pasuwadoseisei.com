@@ -1,0 +1,63 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const posts = [
+  { date: '2025-06-15', title: 'パスワード生成8桁の選び方とおすすめ設定', desc: '8桁パスワードの安全性や選び方のポイントを徹底解説。覚えやすくて安全な8桁パスワードを作成する方法をご紹介します。', href: '/blog/8-digit-password-guide', category: 'パスワードの基礎' },
+  { date: '2025-06-14', title: '安全なパスワードを自動生成する方法【完全ガイド】', desc: '安全なパスワードを自動生成する方法を徹底解説。パスワード生成ツールの選び方から、実際の使い方まで詳しく紹介します。', href: '/blog/auto-generate-safe-password', category: 'パスワードの基礎' },
+  { date: '2025-06-13', title: 'パスワード生成のおすすめ無料ツール比較2025', desc: '無料で使えるパスワード生成ツールを徹底比較。機能や安全性、使いやすさを評価して最適なツールをご紹介します。', href: '/blog/recommended-password-generators', category: 'ツール比較' },
+  { date: '2025-06-12', title: '12桁パスワードの作り方と安全性を徹底解説', desc: '12桁パスワードはなぜ安全なのか？その理由と効果的な作成方法を解説。重要なアカウントは12桁以上を推奨します。', href: '/blog/12-digit-password-guide', category: 'パスワードの基礎' },
+  { date: '2025-06-11', title: '安全なパスワード作成のコツと注意点', desc: '推測されにくい安全なパスワードを作成するコツを紹介。やってはいけないNG例と、おすすめの作成方法を解説します。', href: '/blog/safe-password-creation-tips', category: 'セキュリティ' },
+  { date: '2025-06-10', title: 'ランダムパスワード作成ツールの徹底解説', desc: 'ランダムパスワード作成ツールの仕組みや選び方を解説。乱数生成の品質や安全性について詳しく説明します。', href: '/blog/random-password-tool-guide', category: 'ツール比較' },
+  { date: '2025-06-09', title: 'パスワードメーカーおすすめランキング【2025年最新】', desc: 'おすすめのパスワードメーカー（生成ツール）をランキング形式で紹介。無料で使える高機能ツールを厳選しました。', href: '/blog/password-maker-ranking', category: 'ツール比較' },
+  { date: '2025-06-08', title: '無料のパスワード生成アプリおすすめ比較', desc: 'スマホで使える無料のパスワード生成アプリを比較。iPhone・Android対応アプリの機能や使いやすさをレビュー。', href: '/blog/password-generator-apps', category: 'ツール比較' },
+  { date: '2025-06-07', title: 'ノートンセキュリティのパスワード生成機能を徹底解説', desc: 'ノートンセキュリティに搭載されているパスワード生成機能について詳しく解説。他のツールとの違いや使い方を紹介。', href: '/blog/norton-password-generator', category: 'セキュリティ' },
+  { date: '2025-06-06', title: 'エクセル（Excel）でパスワードを生成する方法', desc: 'Excelの関数を使ってパスワードを生成する方法を解説。RAND関数やCHAR関数を組み合わせた実用的なテクニックを紹介。', href: '/blog/excel-password-generation', category: 'テクニック' },
+  { date: '2025-06-05', title: '強力なパスワードを作成する方法【完全版】', desc: '絶対に突破されない強力なパスワードを作成する方法を伝授。セキュリティのプロが教える最強のパスワード戦略。', href: '/blog/how-to-create-strong-password', category: 'セキュリティ' },
+  { date: '2025-06-04', title: 'おすすめ無料パスワード管理ツール比較2025', desc: '無料で使えるパスワード管理ツールを比較。BitwardenやKeePassなどの人気ツールの機能を詳しく解説します。', href: '/blog/free-password-manager-comparison', category: 'ツール比較' },
+  { date: '2025-06-03', title: 'iPhoneで安全なパスワードを作成する方法', desc: 'iPhoneを使って安全なパスワードを作成・管理する方法を解説。iCloudキーチェーンやおすすめアプリも紹介。', href: '/blog/iphone-safe-password', category: 'テクニック' },
+  { date: '2025-06-02', title: 'パスワードジェネレーターの人気比較と選び方', desc: '数多くあるパスワードジェネレーターを比較。選ぶ際のポイントや注意点をわかりやすく解説します。', href: '/blog/password-generator-comparison', category: 'ツール比較' },
+  { date: '2025-06-01', title: 'パスワードの自動生成とは？仕組みと注意点を解説', desc: 'パスワード自動生成の仕組みやメリット・デメリットについて初心者向けにわかりやすく解説します。', href: '/blog/what-is-auto-password-generation', category: 'パスワードの基礎' },
+  { date: '2025-05-30', title: 'ランダムパスワード8桁の安全性を検証', desc: 'ランダムな8桁パスワードはどの程度安全なのか？実際の解読時間や推奨される文字種について詳しく解説。', href: '/blog/8-digit-random-password-safety', category: 'セキュリティ' },
+  { date: '2025-05-28', title: 'パスワードに記号を入れるべき理由【セキュリティ解説】', desc: 'パスワードに記号を含めることの重要性を解説。記号の有無でセキュリティレベルがどう変わるのかを検証。', href: '/blog/why-use-symbols-in-passwords', category: 'セキュリティ' },
+  { date: '2025-05-25', title: 'パスワード生成ツールの安全性と正しい選び方', desc: 'パスワード生成ツールは安全なのか？危険なツールの見分け方や、信頼できるツールの選び方を解説。', href: '/blog/password-tool-safety', category: 'セキュリティ' },
+  { date: '2025-05-22', title: '面白いパスワード8桁のアイデア集', desc: '覚えやすくて面白い8桁パスワードのアイデアを紹介。自分だけのユニークなパスワードを作成するコツ。', href: '/blog/fun-8-digit-password-ideas', category: 'パスワードの基礎' },
+  { date: '2025-05-20', title: '複雑なパスワードの作り方と管理のコツ', desc: '複雑で解読されにくいパスワードを作成するテクニックと、それを効率的に管理する方法を解説。', href: '/blog/how-to-make-complex-password', category: 'セキュリティ' },
+  { date: '2025-05-18', title: 'パスワード使い回しの危険性と対策', desc: '同じパスワードを複数のサービスで使い回すリスクと、安全に管理するための具体的な対策を解説。', href: '/blog/password-reuse-risks', category: 'セキュリティ' },
+  { date: '2025-05-15', title: 'SSIDのランダム生成でWi-Fiセキュリティを強化', desc: 'Wi-FiのSSIDをランダムに生成してセキュリティを高める方法。ルーター設定のコツも紹介。', href: '/blog/ssid-random-generation', category: 'テクニック' },
+];
+---
+
+<BaseLayout title="ブログ | パスワード生成・セキュリティ情報" description="パスワードの生成方法やセキュリティ対策についての情報を発信。パスワード生成8桁・12桁の使い方や、安全なパスワード管理のコツを解説します。">
+  <section class="blog-page">
+    <div class="blog-page-header">
+      <h1>ブログ記事一覧</h1>
+      <p>パスワードの生成方法やセキュリティ対策について、わかりやすく解説しています。</p>
+    </div>
+    <div class="blog-grid">
+      {posts.map(post => (
+        <a href={post.href} class="blog-card">
+          <div class="date">{post.date}</div>
+          <span class="tag">{post.category}</span>
+          <h3>{post.title}</h3>
+          <p>{post.desc}</p>
+          <span class="read-more">続きを読む →</span>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .blog-page { padding: 24px 0 60px; }
+  .blog-page-header { margin-bottom: 36px; }
+  .blog-page-header h1 { font-size: 32px; font-weight: 900; margin-bottom: 12px; letter-spacing: -0.02em; }
+  .blog-page-header p { color: var(--text-secondary); line-height: 1.7; max-width: 640px; }
+  .blog-card .date { margin-bottom: 4px; }
+  .blog-card .tag { margin-bottom: 10px; display: inline-block; }
+  .blog-card h3 { margin-top: 4px; }
+
+  @media (max-width: 768px) {
+    .blog-page { padding: 16px 0 40px; }
+    .blog-page-header h1 { font-size: 24px; }
+  }
+</style>

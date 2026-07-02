@@ -1,0 +1,124 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+---
+
+<ToolLayout
+  title="UUID生成ツール | v4 UUIDをオンライン生成"
+  description="UUID v4（ランダムUUID）をワンクリックで生成。複数一括生成、大文字小文字切替に対応。開発やテストデータ作成に。"
+  toolTitle="UUID生成 (v4)"
+  toolDescription="UUIDバージョン4（ランダムUUID）を生成します。1つまたは複数のUUIDを一括生成。コピーもワンクリック。"
+  canonical="https://www.pasuwadoseisei.com/tools/uuid-generator"
+  breadcrumbs={[{label:'TOP', href:'/'},{label:'ツール一覧', href:'/tools'},{label:'UUID生成'}]}
+>
+  <div slot="tool" id="uuid-tool">
+    <div class="uuid-controls">
+      <div class="option-label">
+        <span>生成数:</span>
+        <select id="uuid-count" aria-label="生成数">
+          <option value="1">1個</option>
+          <option value="5">5個</option>
+          <option value="10" selected>10個</option>
+          <option value="50">50個</option>
+        </select>
+      </div>
+      <label class="option-label" style="padding:10px 14px;">
+        <input type="checkbox" id="uuid-uppercase" /> 大文字
+      </label>
+    </div>
+    <div class="generator-actions" style="margin-top:16px;">
+      <button class="btn btn-primary btn-lg" id="uuid-generate">UUID を生成</button>
+      <button class="btn btn-secondary btn-lg" id="uuid-copy">全てコピー</button>
+    </div>
+    <div class="result-textarea" id="uuid-result">結果がここに表示されます</div>
+  </div>
+  <section slot="content">
+    <h2>UUIDとは</h2>
+    <p>UUID（Universally Unique Identifier）は、ソフトウェア開発において一意な識別子として広く使用される128ビットの値です。バージョン4はランダムな値から生成されます。</p>
+    <h3>使用シーン</h3>
+    <ul>
+      <li>データベースのプライマリキー</li>
+      <li>APIリソースの識別子</li>
+      <li>セッションID</li>
+      <li>ファイル名の一意識別子</li>
+    </ul>
+    <RelatedTools />
+  </section>
+</ToolLayout>
+
+<script>
+(function() {
+  const result = document.getElementById('uuid-result');
+  const generateBtn = document.getElementById('uuid-generate');
+  const copyBtn = document.getElementById('uuid-copy');
+  const countSelect = document.getElementById('uuid-count');
+  const upperCheck = document.getElementById('uuid-uppercase');
+
+  function generateUUID() {
+    const hex = '0123456789abcdef';
+    let uuid = '';
+    for (let i = 0; i < 36; i++) {
+      if (i === 8 || i === 13 || i === 18 || i === 23) { uuid += '-'; continue; }
+      if (i === 14) { uuid += '4'; continue; }
+      if (i === 19) { uuid += hex[(Math.random() * 4 | 0) + 8]; continue; }
+      uuid += hex[Math.random() * 16 | 0];
+    }
+    return uuid;
+  }
+
+  function generate() {
+    const count = parseInt(countSelect.value);
+    const upper = upperCheck.checked;
+    const uuids = [];
+    for (let i = 0; i < count; i++) {
+      let u = generateUUID();
+      if (upper) u = u.toUpperCase();
+      uuids.push(u);
+    }
+    result.textContent = uuids.join('\n');
+  }
+
+  function copyAll() {
+    if (result.textContent && result.textContent !== '結果がここに表示されます') {
+      navigator.clipboard.writeText(result.textContent);
+    }
+  }
+
+  generateBtn.addEventListener('click', generate);
+  copyBtn.addEventListener('click', copyAll);
+  countSelect.addEventListener('change', generate);
+  upperCheck.addEventListener('change', generate);
+  generate();
+})();
+</script>
+
+<style>
+  .uuid-controls { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+  .option-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xs);
+    background: var(--bg);
+  }
+  .option-label select { padding: 4px 8px; border: 1px solid var(--border); border-radius: 4px; font-size: 14px; font-family: inherit; background: var(--bg-card); }
+  .option-label input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--primary); cursor: pointer; flex-shrink: 0; }
+  .result-textarea {
+    margin-top: 16px;
+    background: var(--bg);
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.8;
+    min-height: 200px;
+    max-height: 400px;
+    overflow-y: auto;
+    white-space: pre;
+    user-select: all;
+  }
+</style>

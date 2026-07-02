@@ -1,0 +1,131 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+---
+
+<ToolLayout
+  title="正規表現テスター | リアルタイムマッチング確認"
+  description="正規表現パターンをリアルタイムにテスト。マッチ結果をハイライト表示。フラグ設定にも対応。"
+  toolTitle="正規表現テスター"
+  toolDescription="正規表現（Regex）のパターンをリアルタイムにテストします。マッチした部分を視覚的に確認でき、フラグ（g, i, m, s）も設定可能。"
+  canonical="https://www.pasuwadoseisei.com/tools/regex-tester"
+  breadcrumbs={[{label:'TOP', href:'/'},{label:'ツール一覧', href:'/tools'},{label:'正規表現テスター'}]}
+>
+  <div slot="tool" id="regex-tool">
+    <div class="input-group">
+      <label class="input-label">正規表現パターン</label>
+      <input type="text" id="regex-pattern" class="regex-input" value="[a-z]+" placeholder="例: [a-z]+" aria-label="正規表現パターン" spellcheck="false" />
+    </div>
+    <div class="regex-flags">
+      <label class="regex-flag"><input type="checkbox" id="regex-g" checked /> g (global)</label>
+      <label class="regex-flag"><input type="checkbox" id="regex-i" /> i (ignore case)</label>
+      <label class="regex-flag"><input type="checkbox" id="regex-m" /> m (multiline)</label>
+      <label class="regex-flag"><input type="checkbox" id="regex-s" /> s (dotall)</label>
+    </div>
+    <div class="input-group" style="margin-top:16px;">
+      <label class="input-label">テストテキスト</label>
+      <textarea id="regex-text" class="counter-textarea code-textarea" placeholder="テストテキストを入力..." rows="6" aria-label="テストテキスト" spellcheck="false">Hello World
+hello123
+ABC_abc
+test@example.com</textarea>
+    </div>
+    <div class="input-group" style="margin-top:16px;">
+      <label class="input-label" id="regex-match-label">マッチ結果</label>
+      <div class="result-box" id="regex-result" style="cursor:auto;user-select:all;margin-top:8px;min-height:40px;font-family:'Courier New',monospace;font-size:14px;text-align:left;display:block;white-space:pre-wrap;"></div>
+    </div>
+  </div>
+  <section slot="content">
+    <h2>正規表現テスターとは</h2>
+    <p>正規表現のパターンがテキストにどのようにマッチするかをリアルタイムに確認できるツールです。開発時のデバッグや学習に便利です。</p>
+    <h3>対応フラグ</h3>
+    <ul>
+      <li><strong>g (global)</strong>：全てのマッチを検索</li>
+      <li><strong>i (ignore case)</strong>：大文字小文字を区別しない</li>
+      <li><strong>m (multiline)</strong>：^と$を行頭行末にマッチ</li>
+      <li><strong>s (dotall)</strong>：.が改行にもマッチ</li>
+    </ul>
+    <RelatedTools />
+  </section>
+</ToolLayout>
+
+<script>
+(function() {
+  const pattern = document.getElementById('regex-pattern');
+  const text = document.getElementById('regex-text');
+  const result = document.getElementById('regex-result');
+  const checks = { g: document.getElementById('regex-g'), i: document.getElementById('regex-i'), m: document.getElementById('regex-m'), s: document.getElementById('regex-s') };
+  if (!pattern || !text || !result) return;
+
+  function update() {
+    const pat = pattern.value;
+    const txt = text.value;
+    if (!pat) { result.textContent = '(パターンを入力してください)'; return; }
+    if (!txt) { result.textContent = '(テストテキストを入力してください)'; return; }
+    try {
+      let flags = '';
+      if (checks.g?.checked) flags += 'g';
+      if (checks.i?.checked) flags += 'i';
+      if (checks.m?.checked) flags += 'm';
+      if (checks.s?.checked) flags += 's';
+      const regex = new RegExp(pat, flags);
+      const matches = txt.match(regex);
+      if (matches) {
+        result.textContent = matches.length + ' 件マッチ\n' + matches.map((m, i) => (i + 1) + ': "' + m + '"').join('\n');
+      } else {
+        result.textContent = '(マッチしませんでした)';
+      }
+    } catch(e) {
+      result.textContent = 'エラー: ' + e.message;
+    }
+  }
+
+  pattern.addEventListener('input', update);
+  text.addEventListener('input', update);
+  Object.values(checks).forEach(ch => ch?.addEventListener('change', update));
+  update();
+})();
+</script>
+
+<style>
+  .counter-textarea {
+    width: 100%;
+    padding: 14px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: 15px;
+    line-height: 1.6;
+    resize: vertical;
+    min-height: 100px;
+    background: var(--bg);
+    color: var(--text);
+    transition: border-color var(--transition);
+  }
+  .counter-textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-light);
+  }
+  .code-textarea { font-family: 'Courier New', monospace; font-size: 14px; line-height: 1.5; }
+  .input-group { display: flex; flex-direction: column; }
+  .input-label { font-size: 13px; font-weight: 600; color: var(--text-secondary); margin-bottom: 6px; }
+  .regex-input {
+    padding: 12px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-family: 'Courier New', monospace;
+    font-size: 16px;
+    background: var(--bg);
+    color: var(--text);
+    transition: border-color var(--transition);
+  }
+  .regex-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-light);
+  }
+  .regex-flags { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 10px; }
+  .regex-flag { display: flex; align-items: center; gap: 6px; font-size: 14px; color: var(--text-secondary); cursor: pointer; }
+  .regex-flag input { accent-color: var(--primary); }
+  .result-box { cursor: auto; user-select: all; word-break: break-all; }
+</style>

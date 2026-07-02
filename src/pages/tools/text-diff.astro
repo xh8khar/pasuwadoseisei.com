@@ -1,0 +1,133 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+---
+
+<ToolLayout
+  title="テキスト比較ツール | 差分をハイライト表示"
+  description="2つのテキストを比較して差分を強調表示。追加・削除・変更箇所を色分けして視覚的に確認。"
+  toolTitle="テキスト比較 (Diff)"
+  toolDescription="2つのテキストの差分を検出し、追加・削除・変更箇所を色分け表示します。文章の比較やコードレビューに便利。"
+  canonical="https://www.pasuwadoseisei.com/tools/text-diff"
+  breadcrumbs={[{label:'TOP', href:'/'},{label:'ツール一覧', href:'/tools'},{label:'テキスト比較'}]}
+>
+  <div slot="tool" id="diff-tool">
+    <div class="diff-columns">
+      <div class="diff-col">
+        <label class="input-label">テキストA（元のテキスト）</label>
+        <textarea id="diff-a" class="counter-textarea code-textarea" placeholder="元のテキスト..." rows="6" aria-label="テキストA" spellcheck="false"></textarea>
+      </div>
+      <div class="diff-col">
+        <label class="input-label">テキストB（新しいテキスト）</label>
+        <textarea id="diff-b" class="counter-textarea code-textarea" placeholder="新しいテキスト..." rows="6" aria-label="テキストB" spellcheck="false"></textarea>
+      </div>
+    </div>
+    <div style="margin-top:12px;">
+      <button class="btn btn-primary" id="diff-compare">比較する</button>
+      <button class="btn btn-secondary" id="diff-clear" style="margin-left:8px;">クリア</button>
+    </div>
+    <div class="diff-result" id="diff-result" style="margin-top:20px;"></div>
+  </div>
+  <section slot="content">
+    <h2>テキスト比較（Diff）とは</h2>
+    <p>2つのテキストの差分を行単位で検出し、追加・削除・変更を色分けして表示します。</p>
+    <h3>色の意味</h3>
+    <ul>
+      <li><strong style="color:#16a34a;">緑色</strong>：追加された行</li>
+      <li><strong style="color:#dc2626;">赤色</strong>：削除された行</li>
+    </ul>
+    <h3>使用シーン</h3>
+    <ul>
+      <li>文章の修正箇所の確認</li>
+      <li>設定ファイルの変更確認</li>
+      <li>コードの変更点チェック</li>
+      <li>データの比較検証</li>
+    </ul>
+    <RelatedTools />
+  </section>
+</ToolLayout>
+
+<script>
+(function() {
+  const textA = document.getElementById('diff-a');
+  const textB = document.getElementById('diff-b');
+  const result = document.getElementById('diff-result');
+
+  function simpleDiff(a, b) {
+    const linesA = a.split('\n');
+    const linesB = b.split('\n');
+    const maxLen = Math.max(linesA.length, linesB.length);
+    let html = '<table class="diff-table"><tbody>';
+    for (let i = 0; i < maxLen; i++) {
+      const la = i < linesA.length ? linesA[i] : '';
+      const lb = i < linesB.length ? linesB[i] : '';
+      if (la === lb) {
+        html += `<tr class="diff-keep"><td class="diff-num">${i+1}</td><td class="diff-num">${i+1}</td><td>${esc(la)}</td></tr>`;
+      } else {
+        if (la && lb) {
+          html += `<tr class="diff-del"><td class="diff-num">${i+1}</td><td class="diff-num"></td><td>${esc(la)}</td></tr>`;
+          html += `<tr class="diff-add"><td class="diff-num"></td><td class="diff-num">${i+1}</td><td>${esc(lb)}</td></tr>`;
+        } else if (la) {
+          html += `<tr class="diff-del"><td class="diff-num">${i+1}</td><td class="diff-num"></td><td>${esc(la)}</td></tr>`;
+        } else if (lb) {
+          html += `<tr class="diff-add"><td class="diff-num"></td><td class="diff-num">${i+1}</td><td>${esc(lb)}</td></tr>`;
+        }
+      }
+    }
+    html += '</tbody></table>';
+    return html;
+  }
+
+  function esc(s) {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  document.getElementById('diff-compare')?.addEventListener('click', function() {
+    const a = textA.value;
+    const b = textB.value;
+    if (!a && !b) { result.innerHTML = '<p style="color:var(--text-tertiary);">テキストを入力してください</p>'; return; }
+    result.innerHTML = simpleDiff(a, b);
+  });
+
+  document.getElementById('diff-clear')?.addEventListener('click', function() {
+    textA.value = '';
+    textB.value = '';
+    result.innerHTML = '';
+    textA.focus();
+  });
+})();
+</script>
+
+<style>
+  .counter-textarea {
+    width: 100%;
+    padding: 14px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: 15px;
+    line-height: 1.6;
+    resize: vertical;
+    min-height: 120px;
+    background: var(--bg);
+    color: var(--text);
+    transition: border-color var(--transition);
+  }
+  .counter-textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-light);
+  }
+  .code-textarea { font-family: 'Courier New', monospace; font-size: 14px; line-height: 1.5; }
+  .input-label { font-size: 13px; font-weight: 600; color: var(--text-secondary); margin-bottom: 6px; display: block; }
+  .diff-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .diff-table { width: 100%; border-collapse: collapse; font-family: 'Courier New', monospace; font-size: 14px; line-height: 1.6; }
+  .diff-table td { padding: 4px 8px; vertical-align: top; }
+  .diff-num { color: var(--text-tertiary); text-align: right; width: 40px; user-select: none; font-size: 12px; }
+  .diff-add { background: #f0fdf4; }
+  .diff-add td:last-child { color: #16a34a; }
+  .diff-del { background: #fef2f2; }
+  .diff-del td:last-child { color: #dc2626; text-decoration: line-through; }
+  .diff-keep td:last-child { color: var(--text); }
+  @media (max-width: 768px) { .diff-columns { grid-template-columns: 1fr; } }
+</style>

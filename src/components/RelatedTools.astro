@@ -1,0 +1,34 @@
+---
+const tools = [
+  { title: '文字数カウンター', description: '文字数・バイト数・行数をリアルタイムに計測', href: '/tools/character-counter' },
+  { title: '全角半角変換', description: '全角英数字・記号・カタカナを半角に変換', href: '/tools/zenkaku-hankaku' },
+  { title: 'URLエンコード/デコード', description: 'URLのパーセントエンコード・デコード変換', href: '/tools/url-encode-decode' },
+  { title: 'Base64変換', description: 'テキストのBase64エンコード・デコード', href: '/tools/base64' },
+  { title: 'ハッシュ生成', description: 'MD5/SHA-1/SHA-256/SHA-512ハッシュ値計算', href: '/tools/hash-generator' },
+  { title: 'JSON整形/バリデーション', description: 'JSONデータのフォーマット・圧縮・検証', href: '/tools/json-formatter' },
+  { title: '正規表現テスター', description: '正規表現パターンをリアルタイムにテスト', href: '/tools/regex-tester' },
+  { title: 'カラーコード変換', description: 'HEX/RGB/HSLカラーコードを相互変換', href: '/tools/color-converter' },
+  { title: 'UUID生成', description: 'UUID v4を生成・一括生成', href: '/tools/uuid-generator' },
+  { title: 'テキスト比較', description: '2つのテキストの差分を色分け表示', href: '/tools/text-diff' },
+  { title: 'パスワード生成（標準）', description: '文字数や文字種を細かく指定してパスワードを生成', href: '/tools/password-generator' },
+  { title: '8桁パスワード生成', description: 'ちょうど8桁の覚えやすいパスワードを作成', href: '/tools/8-digit-password-generator' },
+];
+---
+
+<div class="related-tools">
+  <h2 class="section-title">関連ツール</h2>
+  <p class="section-subtitle">目的に合わせて便利ツールをお選びください</p>
+  <div class="tool-grid">
+    {tools.map(tool => (
+      <a href={tool.href} class="tool-card">
+        <h3>{tool.title}</h3>
+        <p>{tool.description}</p>
+      </a>
+    ))}
+  </div>
+</div>
+
+<style>
+  .related-tools { margin-top: 60px; }
+  .tool-card { text-decoration: none; display: block; }
+</style>

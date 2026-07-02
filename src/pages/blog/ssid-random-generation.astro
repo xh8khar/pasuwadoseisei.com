@@ -1,0 +1,33 @@
+---
+import BlogLayout from '../../layouts/BlogLayout.astro';
+---
+
+<BlogLayout
+  title="SSIDのランダム生成でWi-Fiセキュリティを強化する方法"
+  description="Wi-FiのSSIDをランダムに生成してセキュリティを高める方法を解説。ルーター設定のコツやおすすめのSSID名も紹介。"
+  date="2025-05-15"
+  category="テクニック"
+  breadcrumbs={[{label:'TOP', href:'/'},{label:'ブログ', href:'/blog'},{label:'SSIDランダム生成'}]}
+>
+  <p>Wi-FiルーターのSSID（ネットワーク名）は、セキュリティにおいて意外と重要な役割を果たしています。この記事では、SSIDをランダムに生成してWi-Fiセキュリティを強化する方法を解説します。</p>
+
+  <h2>SSIDをランダムにするメリット</h2>
+  <ul>
+    <li><strong>特定のルーターモデルを隠せる</strong>：デフォルトのSSIDはルーターメーカーや型番を示すことが多く、攻撃者に情報を与えてしまう</li>
+    <li><strong>ターゲットにされにくい</strong>：ランダムなSSIDは「でたらめなネットワーク」に見える</li>
+    <li><strong>個人情報の保護</strong>：家族の名前や住所を含むSSIDは個人情報の漏洩につながる</li>
+  </ul>
+
+  <h2>SSID生成のコツ</h2>
+  <ul>
+    <li>8〜16文字程度の英数字を使用</li>
+    <li>個人情報（名前、住所、誕生日など）を含めない</li>
+    <li>意味のないランダムな文字列にする</li>
+  </ul>
+
+  <h2>パスワード生成ツールの活用</h2>
+  <p>SSIDのランダム生成には、当サイトの<a href="/tools/password-generator">パスワード生成ツール</a>が便利です。生成したパスワードをそのままSSIDとして使用できます。ただし、SSIDには記号が使えない場合もあるので、英数字のみの生成をおすすめします。</p>
+
+  <h2>まとめ</h2>
+  <p>SSIDをランダムにすることは、Wi-Fiセキュリティの第一歩です。ただし、SSIDだけでは不十分で、強力な暗号化パスワード（WPA2/WPA3）と併用することが重要です。</p>
+</BlogLayout>

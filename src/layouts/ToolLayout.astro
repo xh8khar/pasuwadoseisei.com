@@ -1,0 +1,51 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import StructuredData from '../components/StructuredData.astro';
+import type { FAQItem, HowToStep } from '../components/StructuredData.astro';
+
+export interface Props {
+  title: string;
+  description: string;
+  toolTitle: string;
+  toolDescription: string;
+  canonical?: string;
+  breadcrumbs?: { label: string; href?: string }[];
+  faqs?: FAQItem[];
+  howto?: { name: string; description: string; steps: HowToStep[] };
+}
+
+const {
+  title, description, toolTitle, toolDescription, canonical, breadcrumbs, faqs, howto,
+} = Astro.props;
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} breadcrumbs={breadcrumbs}>
+  <StructuredData type="softwareapp" data={{ name: toolTitle, description: toolDescription, url: canonical }} />
+  {howto && <StructuredData type="howto" data={howto} />}
+  {faqs && faqs.length > 0 && <StructuredData type="faq" data={{ items: faqs }} />}
+
+  <article class="tool-page">
+    <div class="tool-header">
+      <h1>{toolTitle}</h1>
+      <p class="tool-desc">{toolDescription}</p>
+    </div>
+    <div class="card tool-card-main">
+      <slot name="tool" />
+    </div>
+    <slot name="content" />
+  </article>
+</BaseLayout>
+
+<style>
+  .tool-page { padding: 24px 0 60px; }
+  .tool-header { margin-bottom: 32px; }
+  .tool-header h1 { font-size: 32px; font-weight: 900; margin-bottom: 12px; letter-spacing: -0.02em; line-height: 1.25; }
+  .tool-desc { color: var(--text-secondary); line-height: 1.7; font-size: 16px; max-width: 700px; }
+  .tool-card-main { margin-bottom: 48px; }
+
+  @media (max-width: 768px) {
+    .tool-page { padding: 16px 0 40px; }
+    .tool-header h1 { font-size: 24px; }
+    .tool-desc { font-size: 15px; }
+  }
+</style>

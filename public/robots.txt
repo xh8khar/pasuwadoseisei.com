@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /404/
+
+Sitemap: https://www.pasuwadoseisei.com/sitemap.xml

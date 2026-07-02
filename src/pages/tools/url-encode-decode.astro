@@ -1,0 +1,95 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+---
+
+<ToolLayout
+  title="URLエンコード/デコード | パーセントエンコード変換"
+  description="URLエンコード（パーセントエンコード）とデコードを相互変換。日本語のURLエンコード結果をリアルタイムに確認。"
+  toolTitle="URLエンコード / デコード"
+  toolDescription="URLエンコード（パーセントエンコード）とデコードを相互変換します。日本語を含むURLのエンコード結果を確認できます。"
+  canonical="https://www.pasuwadoseisei.com/tools/url-encode-decode"
+  breadcrumbs={[{label:'TOP', href:'/'},{label:'ツール一覧', href:'/tools'},{label:'URLエンコード/デコード'}]}
+>
+  <div slot="tool" id="url-tool">
+    <div class="input-group">
+      <label class="input-label">入力</label>
+      <textarea id="url-input" class="counter-textarea" placeholder="エンコードまたはデコードする文字列..." rows="4" aria-label="入力テキスト"></textarea>
+    </div>
+    <div class="generator-actions" style="margin-top:12px;">
+      <button class="btn btn-primary" id="url-encode">エンコード</button>
+      <button class="btn btn-primary" id="url-decode">デコード</button>
+    </div>
+    <div class="input-group" style="margin-top:20px;">
+      <label class="input-label">結果</label>
+      <div class="result-box" id="url-result" style="cursor:auto;user-select:all;margin-top:8px;">結果がここに表示されます</div>
+      <button class="btn btn-sm btn-secondary" id="url-copy" style="margin-top:8px;">結果をコピー</button>
+    </div>
+  </div>
+  <section slot="content">
+    <h2>URLエンコードとは</h2>
+    <p>URLエンコード（パーセントエンコード）は、URLで使用できない文字を % に続く16進数に変換する方式です。日本語や特殊記号を含むURLを作成する際に必要です。</p>
+    <h3>使用例</h3>
+    <ul>
+      <li>日本語URLのエンコード: `テスト` → `%E3%83%86%E3%82%B9%E3%83%88`</li>
+      <li>GETパラメータの特殊文字エンコード</li>
+      <li>APIリクエストのパラメータ作成</li>
+    </ul>
+    <RelatedTools />
+  </section>
+</ToolLayout>
+
+<script>
+(function() {
+  const input = document.getElementById('url-input');
+  const result = document.getElementById('url-result');
+  if (!input || !result) return;
+
+  document.getElementById('url-encode')?.addEventListener('click', function() {
+    try {
+      result.textContent = encodeURIComponent(input.value);
+    } catch(e) {
+      result.textContent = 'エンコードに失敗しました';
+    }
+  });
+  document.getElementById('url-decode')?.addEventListener('click', function() {
+    try {
+      result.textContent = decodeURIComponent(input.value);
+    } catch(e) {
+      result.textContent = 'デコードに失敗しました。不正な形式です。';
+    }
+  });
+  document.getElementById('url-copy')?.addEventListener('click', function() {
+    const text = result.textContent;
+    if (text && text !== '結果がここに表示されます') {
+      navigator.clipboard.writeText(text);
+    }
+  });
+})();
+</script>
+
+<style>
+  .counter-textarea {
+    width: 100%;
+    padding: 14px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: 15px;
+    line-height: 1.6;
+    resize: vertical;
+    min-height: 100px;
+    background: var(--bg);
+    color: var(--text);
+    transition: border-color var(--transition);
+  }
+  .counter-textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-light);
+  }
+  .counter-textarea::placeholder { color: var(--text-tertiary); }
+  .input-group { display: flex; flex-direction: column; }
+  .input-label { font-size: 13px; font-weight: 600; color: var(--text-secondary); margin-bottom: 6px; }
+  .result-box { cursor: auto; user-select: all; word-break: break-all; }
+</style>

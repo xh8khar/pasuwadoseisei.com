@@ -1,0 +1,116 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+---
+
+<ToolLayout
+  title="JSON整形ツール | フォーマット・バリデーション"
+  description="JSONデータを整形・検証。圧縮されたJSONを見やすくフォーマット、または最小化。バリデーション機能付き。"
+  toolTitle="JSON整形・バリデーション"
+  toolDescription="JSONデータを整形（フォーマット）または圧縮（ミニファイ）します。構文エラーの検出にも対応。"
+  canonical="https://www.pasuwadoseisei.com/tools/json-formatter"
+  breadcrumbs={[{label:'TOP', href:'/'},{label:'ツール一覧', href:'/tools'},{label:'JSON整形'}]}
+>
+  <div slot="tool" id="json-tool">
+    <div class="input-group">
+      <label class="input-label">JSON 入力</label>
+      <textarea id="json-input" class="counter-textarea code-textarea" placeholder='{"key": "value", "array": [1, 2, 3]}' rows="6" aria-label="JSONデータ入力" spellcheck="false"></textarea>
+    </div>
+    <div class="generator-actions" style="margin-top:12px;">
+      <button class="btn btn-primary" id="json-format">フォーマット</button>
+      <button class="btn btn-primary" id="json-minify">圧縮（ミニファイ）</button>
+      <button class="btn btn-secondary" id="json-validate">検証</button>
+    </div>
+    <div class="input-group" style="margin-top:20px;">
+      <label class="input-label">結果</label>
+      <div id="json-status" class="json-status"></div>
+      <textarea id="json-output" class="counter-textarea code-textarea" rows="6" readonly aria-label="整形結果" style="margin-top:8px;"></textarea>
+      <button class="btn btn-sm btn-secondary" id="json-copy" style="margin-top:8px;">結果をコピー</button>
+    </div>
+  </div>
+  <section slot="content">
+    <h2>JSON整形ツールとは</h2>
+    <p>JSONデータを読みやすく整形（フォーマット）したり、転送用に圧縮（ミニファイ）したりするツールです。API開発やデータ分析で頻繁に使用します。</p>
+    <h3>機能</h3>
+    <ul>
+      <li>インデント整形：見やすい形式に整列</li>
+      <li>ミニファイ：余分な空白を削除して圧縮</li>
+      <li>バリデーション：JSONシンタックスのチェック</li>
+    </ul>
+    <RelatedTools />
+  </section>
+</ToolLayout>
+
+<script>
+(function() {
+  const input = document.getElementById('json-input');
+  const output = document.getElementById('json-output');
+  const status = document.getElementById('json-status');
+  if (!input || !output || !status) return;
+
+  function process(mode) {
+    const text = input.value.trim();
+    if (!text) {
+      status.textContent = '';
+      output.value = '';
+      status.className = 'json-status';
+      return;
+    }
+    try {
+      const parsed = JSON.parse(text);
+      if (mode === 'format') {
+        output.value = JSON.stringify(parsed, null, 2);
+        status.textContent = '整形成功';
+        status.className = 'json-status json-ok';
+      } else if (mode === 'minify') {
+        output.value = JSON.stringify(parsed);
+        status.textContent = '圧縮成功';
+        status.className = 'json-status json-ok';
+      } else if (mode === 'validate') {
+        output.value = JSON.stringify(parsed, null, 2);
+        status.textContent = '有効なJSONです';
+        status.className = 'json-status json-ok';
+      }
+    } catch(e) {
+      output.value = '';
+      status.textContent = 'エラー: ' + e.message;
+      status.className = 'json-status json-error';
+    }
+  }
+
+  document.getElementById('json-format')?.addEventListener('click', function() { process('format'); });
+  document.getElementById('json-minify')?.addEventListener('click', function() { process('minify'); });
+  document.getElementById('json-validate')?.addEventListener('click', function() { process('validate'); });
+  document.getElementById('json-copy')?.addEventListener('click', function() {
+    if (output.value) navigator.clipboard.writeText(output.value);
+  });
+})();
+</script>
+
+<style>
+  .counter-textarea {
+    width: 100%;
+    padding: 14px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: 15px;
+    line-height: 1.6;
+    resize: vertical;
+    background: var(--bg);
+    color: var(--text);
+    transition: border-color var(--transition);
+  }
+  .counter-textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-light);
+  }
+  .counter-textarea::placeholder { color: var(--text-tertiary); }
+  .code-textarea { font-family: 'Courier New', monospace; font-size: 14px; line-height: 1.5; }
+  .input-group { display: flex; flex-direction: column; }
+  .input-label { font-size: 13px; font-weight: 600; color: var(--text-secondary); margin-bottom: 6px; }
+  .json-status { font-size: 14px; padding: 8px 12px; border-radius: var(--radius-xs); margin-bottom: 0; }
+  .json-ok { background: var(--secondary-light); color: var(--secondary); }
+  .json-error { background: #fef2f2; color: #dc2626; }
+</style>

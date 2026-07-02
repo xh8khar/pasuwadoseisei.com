@@ -1,0 +1,277 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PasswordGenerator from '../components/PasswordGenerator.astro';
+import RelatedTools from '../components/RelatedTools.astro';
+import StructuredData from '../components/StructuredData.astro';
+
+const faqs = [
+  { question: 'パスワード生成ツールは安全ですか？', answer: 'はい、当サイトのパスワード生成ツールは100%ブラウザ上で動作し、生成されたパスワードがサーバーに送信されることはありません。暗号論的乱数生成API（Crypto.getRandomValues）を使用しており、セキュリティ業界で認められた安全な方法でパスワードを生成しています。' },
+  { question: '8桁パスワードと12桁パスワード、どちらが安全ですか？', answer: '一般的に12桁以上のパスワードの方が安全です。8桁パスワードでも記号を含めれば十分な強度がありますが、重要なアカウント（メール・銀行・SNSなど）では12桁以上を推奨します。当サイトでは目的に応じて8桁・12桁・16桁のパスワードを生成できます。' },
+  { question: '生成したパスワードはどこに保存されますか？', answer: '生成されたパスワードはブラウザ上に表示されるだけで、サーバーには一切保存されません。パスワードはお客様ご自身でパスワードマネージャーなどに保存してください。' },
+  { question: 'パスワードに記号は含めたほうがいいですか？', answer: 'はい、パスワードに記号（!@#$%^&*など）を含めることで、総当たり攻撃に必要な試行回数が大幅に増加し、セキュリティが向上します。多くのWebサービスでも記号の使用が推奨されています。' },
+  { question: '無料で使えますか？', answer: 'はい、当サイトのすべてのツールは完全無料でご利用いただけます。登録やインストールも不要で、ブラウザさえあればすぐにお使いいただけます。' },
+];
+---
+
+<BaseLayout title="パスワード生成 | 安全なパスワードを無料で自動生成">
+  <StructuredData type="faq" data={{ items: faqs }} />
+  <StructuredData type="softwareapp" data={{
+    name: 'パスワード生成ツール',
+    description: '安全なパスワードを無料で自動生成するWebツール',
+    url: 'https://www.pasuwadoseisei.com',
+  }} />
+
+  <section class="hero">
+    <h1><span>安全なパスワード</span>を<br class="sp-only"/>無料で自動生成</h1>
+    <p>8桁・12桁・16桁の強力なパスワードをワンクリックで作成。大文字・小文字・数字・記号を自由に組み合わせ、ブラウザ上で完結する安全なパスワード生成ツールです。</p>
+    <div class="hero-actions">
+      <a href="#generator" class="btn btn-primary btn-lg">パスワードを生成する</a>
+      <a href="/tools" class="btn btn-secondary btn-lg">ツール一覧を見る</a>
+    </div>
+    <div class="hero-tags">
+      <span class="tag">無料</span>
+      <span class="tag">ブラウザ完結</span>
+      <span class="tag">登録不要</span>
+    </div>
+  </section>
+
+  <section class="main-tool" id="generator">
+    <div class="card tool-card-main">
+      <PasswordGenerator defaultLength={12} />
+    </div>
+  </section>
+
+  <section class="stats-section" aria-label="サイト統計">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <span class="stat-number">12</span>
+        <span class="stat-label">パスワード生成ツール</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">22</span>
+        <span class="stat-label">ブログ記事</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">4</span>
+        <span class="stat-label">文字種対応</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">100%</span>
+        <span class="stat-label">ブラウザ完結・安全</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="features-section">
+    <h2 class="section-title">なぜパスワード生成ツールが必要なのか？</h2>
+    <p class="section-subtitle">安全なパスワードを簡単に作成し、アカウントをサイバー攻撃から守りましょう。</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h3>セキュリティ向上</h3>
+        <p>誕生日や名前などの推測されやすいパスワードではなく、ランダムな文字列を使用することでアカウントを保護します。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
+        <h3>簡単・高速</h3>
+        <p>ワンクリックで強力なパスワードを生成。自分で考える必要はありません。すぐに使えるパスワードができます。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </div>
+        <h3>カスタマイズ可能</h3>
+        <p>文字数や使用する文字の種類を細かく設定可能。サービスごとに最適なパスワードを作成できます。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <h3>完全無料・プライベート</h3>
+        <p>すべての処理はブラウザ上で完結。パスワードがサーバーに送信されることは一切ありません。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="popular-tools">
+    <h2 class="section-title">人気のパスワード生成ツール</h2>
+    <p class="section-subtitle">目的に合わせて最適なパスワードを生成できます。</p>
+    <div class="popular-grid">
+      <a href="/tools/8-digit-password-generator" class="popular-card">
+        <span class="popular-rank">#1</span>
+        <h3>8桁パスワード生成</h3>
+        <p>最も人気の8桁パスワードを簡単生成</p>
+      </a>
+      <a href="/tools/12-digit-password-generator" class="popular-card">
+        <span class="popular-rank">#2</span>
+        <h3>12桁パスワード生成</h3>
+        <p>セキュリティと使いやすさのバランス</p>
+      </a>
+      <a href="/tools/strong-password-generator" class="popular-card">
+        <span class="popular-rank">#3</span>
+        <h3>強力なパスワード生成</h3>
+        <p>大文字・小文字・数字・記号を全て使用</p>
+      </a>
+      <a href="/tools/pin-generator" class="popular-card">
+        <span class="popular-rank">#4</span>
+        <h3>暗証番号(PIN)生成</h3>
+        <p>数字のみの簡単な暗証番号を生成</p>
+      </a>
+    </div>
+  </section>
+
+  <section class="usage-section">
+    <h2 class="section-title">パスワード生成の使い方</h2>
+    <p class="section-subtitle">たった4ステップで安全なパスワードを作成できます。</p>
+    <div class="steps">
+      <div class="step">
+        <span class="step-num" aria-hidden="true">1</span>
+        <div>
+          <h3>文字数を設定</h3>
+          <p>スライダーでパスワードの長さを調整します。推奨は12桁以上です。</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num" aria-hidden="true">2</span>
+        <div>
+          <h3>文字種を選択</h3>
+          <p>大文字・小文字・数字・記号から使用する文字を選びます。</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num" aria-hidden="true">3</span>
+        <div>
+          <h3>生成ボタンをクリック</h3>
+          <p>「パスワードを生成」ボタンを押すだけで強力なパスワードが作成されます。</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num" aria-hidden="true">4</span>
+        <div>
+          <h3>コピーして使用</h3>
+          <p>生成されたパスワードをクリックするか、コピーボタンでクリップボードに保存。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="faq-section" aria-label="よくある質問">
+    <h2 class="section-title">よくある質問</h2>
+    {faqs.map(faq => (
+      <details class="faq-item">
+        <summary class="faq-question">{faq.question}</summary>
+        <div class="faq-answer">{faq.answer}</div>
+      </details>
+    ))}
+  </section>
+
+  <RelatedTools />
+</BaseLayout>
+
+<style>
+  .sp-only { display: none; }
+  @media (max-width: 768px) { .sp-only { display: inline; } }
+
+  .main-tool { margin-bottom: 64px; }
+  .tool-card-main { padding: 40px; }
+  @media (max-width: 768px) { .tool-card-main { padding: 24px; } }
+
+  .stats-section { margin-bottom: 64px; }
+  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px 20px;
+    text-align: center;
+    transition: box-shadow var(--transition), transform var(--transition);
+  }
+  .stat-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+  .stat-number { display: block; font-size: 36px; font-weight: 900; color: var(--primary); line-height: 1.1; margin-bottom: 4px; font-feature-settings: "tnum"; }
+  .stat-label { font-size: 13px; color: var(--text-secondary); font-weight: 500; }
+  @media (max-width: 768px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+
+  .features-section { margin-bottom: 64px; }
+  .features-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+  .feature-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 32px 28px;
+    transition: all var(--transition-slow);
+  }
+  .feature-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-3px); border-color: transparent; }
+  .feature-icon { font-size: 40px; margin-bottom: 16px; line-height: 1; display: inline-block; background: var(--primary-bg); padding: 12px; border-radius: var(--radius-sm); }
+  .feature-card h3 { font-size: 18px; margin-bottom: 8px; font-weight: 700; }
+  .feature-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.7; }
+
+  .popular-tools { margin-bottom: 64px; }
+  .popular-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+  .popular-card {
+    display: block;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    text-decoration: none;
+    transition: all var(--transition-slow);
+    position: relative;
+    overflow: hidden;
+  }
+  .popular-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    opacity: 0;
+    transition: opacity var(--transition-slow);
+  }
+  .popular-card:hover { border-color: transparent; box-shadow: var(--shadow-lg); transform: translateY(-3px); }
+  .popular-card:hover::before { opacity: 1; }
+  .popular-rank {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: var(--primary-bg);
+    color: var(--primary);
+    padding: 3px 12px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .popular-card h3 { font-size: 18px; margin-bottom: 8px; color: var(--text); font-weight: 700; }
+  .popular-card p { font-size: 14px; color: var(--text-secondary); }
+
+  .usage-section { margin-bottom: 64px; }
+  .steps { display: flex; flex-direction: column; gap: 24px; max-width: 680px; }
+  .step { display: flex; gap: 24px; align-items: flex-start; }
+  .step-num {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: white;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 20px;
+    box-shadow: 0 4px 12px rgba(37,99,235,0.25);
+  }
+  .step h3 { font-size: 17px; margin-bottom: 4px; font-weight: 700; }
+  .step p { font-size: 14px; color: var(--text-secondary); line-height: 1.7; }
+
+  .hero-tags {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 16px;
+    position: relative;
+  }
+</style>

@@ -1,0 +1,140 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+---
+
+<ToolLayout
+  title="文字数カウンター | 文字数・バイト数をリアルタイム計測"
+  description="文字数、バイト数、行数をリアルタイムにカウント。日本語の全角半角対応、Twitterやフォーム入力時の文字数確認に最適。"
+  toolTitle="文字数カウンター"
+  toolDescription="入力されたテキストの文字数、バイト数（UTF-8/Shift_JIS）、行数をリアルタイムに計測します。全角文字・半角文字を正確にカウント。"
+  canonical="https://www.pasuwadoseisei.com/tools/character-counter"
+  breadcrumbs={[{label:'TOP', href:'/'},{label:'ツール一覧', href:'/tools'},{label:'文字数カウンター'}]}
+>
+  <div slot="tool" id="char-counter">
+    <div class="counter-input">
+      <textarea id="counter-text" class="counter-textarea" placeholder="ここにテキストを入力してください..." rows="8" aria-label="カウントするテキスト"></textarea>
+    </div>
+    <div class="counter-results">
+      <div class="counter-item">
+        <span class="counter-label">文字数</span>
+        <span class="counter-value" id="char-total">0</span>
+      </div>
+      <div class="counter-item">
+        <span class="counter-label">空白除く文字数</span>
+        <span class="counter-value" id="char-nospace">0</span>
+      </div>
+      <div class="counter-item">
+        <span class="counter-label">バイト数 (UTF-8)</span>
+        <span class="counter-value" id="byte-utf8">0</span>
+      </div>
+      <div class="counter-item">
+        <span class="counter-label">バイト数 (Shift_JIS)</span>
+        <span class="counter-value" id="byte-sjis">0</span>
+      </div>
+      <div class="counter-item">
+        <span class="counter-label">行数</span>
+        <span class="counter-value" id="line-count">0</span>
+      </div>
+      <div class="counter-item">
+        <span class="counter-label">単語数</span>
+        <span class="counter-value" id="word-count">0</span>
+      </div>
+    </div>
+    <div class="generator-actions" style="margin-top:16px;">
+      <button class="btn btn-secondary" id="counter-clear">クリア</button>
+    </div>
+  </div>
+  <section slot="content">
+    <h2>文字数カウンターとは</h2>
+    <p>文字数カウンターは、入力されたテキストの文字数やバイト数をリアルタイムに計測するツールです。</p>
+    <h3>主な用途</h3>
+    <ul>
+      <li>Twitter(X)の投稿文字数確認（140字/280字）</li>
+      <li>Webフォームの文字数制限チェック</li>
+      <li>日本語の文章作成時の文字数管理</li>
+      <li>データベースのバイト数制限確認</li>
+      <li>ファイルの行数カウント</li>
+    </ul>
+    <RelatedTools />
+  </section>
+</ToolLayout>
+
+<script>
+(function() {
+  const textarea = document.getElementById('counter-text');
+  if (!textarea) return;
+
+  function updateCounts() {
+    const text = textarea.value;
+    const total = text.length;
+    const noSpace = text.replace(/[\s\u3000]/g, '').length;
+    const lines = text ? text.split('\n').length : 0;
+    const words = text ? text.trim().split(/[\s\u3000]+/).filter(w => w.length > 0).length : 0;
+
+    const encoderUTF8 = new TextEncoder();
+    const utf8Bytes = encoderUTF8.encode(text).length;
+
+    let sjisBytes = 0;
+    for (let i = 0; i < text.length; i++) {
+      const c = text.charCodeAt(i);
+      if (c <= 0x7f) sjisBytes += 1;
+      else if (c <= 0xff) sjisBytes += 1;
+      else sjisBytes += 2;
+    }
+
+    document.getElementById('char-total').textContent = total.toLocaleString();
+    document.getElementById('char-nospace').textContent = noSpace.toLocaleString();
+    document.getElementById('byte-utf8').textContent = utf8Bytes.toLocaleString();
+    document.getElementById('byte-sjis').textContent = sjisBytes.toLocaleString();
+    document.getElementById('line-count').textContent = lines.toLocaleString();
+    document.getElementById('word-count').textContent = words.toLocaleString();
+  }
+
+  textarea.addEventListener('input', updateCounts);
+
+  document.getElementById('counter-clear')?.addEventListener('click', function() {
+    textarea.value = '';
+    updateCounts();
+    textarea.focus();
+  });
+})();
+</script>
+
+<style>
+  .counter-textarea {
+    width: 100%;
+    padding: 16px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: 16px;
+    line-height: 1.8;
+    resize: vertical;
+    min-height: 160px;
+    background: var(--bg);
+    color: var(--text);
+    transition: border-color var(--transition);
+  }
+  .counter-textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-light);
+  }
+  .counter-textarea::placeholder { color: var(--text-tertiary); }
+  .counter-results {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin-top: 20px;
+  }
+  .counter-item {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    text-align: center;
+  }
+  .counter-label { display: block; font-size: 12px; color: var(--text-tertiary); font-weight: 500; margin-bottom: 4px; }
+  .counter-value { display: block; font-size: 28px; font-weight: 900; color: var(--primary); font-feature-settings: "tnum"; line-height: 1.2; }
+</style>

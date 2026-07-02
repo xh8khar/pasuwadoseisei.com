@@ -1,0 +1,154 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+
+const faqs = [
+  { question: 'PINコードは何桁にすべきですか？', answer: 'セキュリティを重視するなら6桁以上を推奨します。4桁は1万通りの組み合わせしかなく、総当たり攻撃で簡単に突破される可能性があります。特にキャッシュカードなどの重要な認証では6桁以上を使用しましょう。' },
+  { question: '「1234」「0000」などのPINはなぜ危険ですか？', answer: 'これらのPINは最も一般的に使われる番号であり、攻撃者が最初に試すパターンです。実際、4桁PINの約10%が「1234」という統計もあります。必ずランダムな数字を選びましょう。' },
+  { question: '誕生日をPINに使ってもいいですか？', answer: 'おすすめしません。誕生日はSNSなどから簡単に入手できる情報であり、推測されやすい典型的なPINです。特に生年月日が公開されている場合は絶対に避けてください。' },
+];
+---
+
+<ToolLayout
+  title="暗証番号(PIN)生成 | 4桁〜8桁のPINコードを無料生成"
+  description="4桁・6桁・8桁の暗証番号(PINコード)を無料で生成。キャッシュカードやスマホロック画面など、数字のみの認証に最適。同じ数字の連続を防ぐオプション付き。"
+  toolTitle="暗証番号(PIN)生成ツール"
+  toolDescription="数字のみの暗証番号（PINコード）を生成します。キャッシュカード、スマートフォンのロック画面、アプリの認証などに最適です。桁数は4桁・6桁・8桁から選択可能。"
+  canonical="https://www.pasuwadoseisei.com/tools/pin-generator"
+  breadcrumbs={[{label:'TOP', href:'/'},{label:'ツール一覧', href:'/tools'},{label:'暗証番号(PIN)生成'}]}
+  {faqs}
+>
+  <div slot="tool" class="pin-generator" id="pin-gen">
+    <div class="result-box" id="pin-result" role="textbox" aria-label="生成されたPINコード" tabindex={0}>クリックして生成</div>
+    <div class="options-grid">
+      <label class="option-label">
+        <span>桁数:</span>
+        <select id="pin-length" aria-label="PINの桁数">
+          <option value="4">4桁</option>
+          <option value="5">5桁</option>
+          <option value="6" selected>6桁（推奨）</option>
+          <option value="7">7桁</option>
+          <option value="8">8桁</option>
+        </select>
+      </label>
+      <label class="option-label">
+        <input type="checkbox" id="pin-no-repeat" checked /> 同じ数字を連続させない
+      </label>
+    </div>
+    <div class="generator-actions">
+      <button class="btn btn-primary btn-lg" id="pin-generate">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+        PINを生成
+      </button>
+      <button class="btn btn-secondary btn-lg" id="pin-copy">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        コピー
+      </button>
+    </div>
+  </div>
+  <section slot="content">
+    <h2>暗証番号（PIN）について</h2>
+    <p>PINコードは主に以下の用途で使用されます：</p>
+    <ul>
+      <li>キャッシュカード・クレジットカードの暗証番号</li>
+      <li>スマートフォンのロック画面</li>
+      <li>アプリ内の認証</li>
+      <li>宅配ボックスや鍵の暗証番号</li>
+    </ul>
+
+    <h3>安全なPINコードの選び方</h3>
+    <ul>
+      <li>「1234」「0000」「1111」などの単純な連番・ゾロ目は避ける</li>
+      <li>誕生日や電話番号など、推測されやすい数字は避ける</li>
+      <li>できるだけ6桁以上を使用する</li>
+      <li>定期的に変更する</li>
+    </ul>
+
+    <h3>PINコードの解読されにくさ比較</h3>
+    <table>
+      <thead>
+        <tr><th>桁数</th><th>組み合わせ数</th><th>解読時間の目安</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>4桁</td><td>10,000通り</td><td>瞬時〜数分</td></tr>
+        <tr><td>6桁</td><td>1,000,000通り</td><td>数時間</td></tr>
+        <tr><td>8桁</td><td>100,000,000通り</td><td>数ヶ月</td></tr>
+      </tbody>
+    </table>
+
+    <section class="faq-section" aria-label="よくある質問">
+      <h2>よくある質問</h2>
+      {faqs.map(faq => (
+        <details class="faq-item">
+          <summary class="faq-question">{faq.question}</summary>
+          <div class="faq-answer">{faq.answer}</div>
+        </details>
+      ))}
+    </section>
+
+    <RelatedTools />
+  </section>
+</ToolLayout>
+
+<script>
+(function() {
+  const result = document.getElementById('pin-result');
+  const generateBtn = document.getElementById('pin-generate');
+  const copyBtn = document.getElementById('pin-copy');
+  const lengthSelect = document.getElementById('pin-length');
+  const noRepeatCheck = document.getElementById('pin-no-repeat');
+  const toast = document.getElementById('toast');
+
+  function generatePIN() {
+    const length = parseInt(lengthSelect.value);
+    const noRepeat = noRepeatCheck.checked;
+    let pin = '';
+    if (noRepeat) {
+      const digits = ['0','1','2','3','4','5','6','7','8','9'];
+      for (let i = 0; i < length && digits.length > 0; i++) {
+        const idx = Math.floor(Math.random() * digits.length);
+        pin += digits[idx];
+        digits.splice(idx, 1);
+      }
+      while (pin.length < length) {
+        pin += Math.floor(Math.random() * 10).toString();
+      }
+    } else {
+      for (let i = 0; i < length; i++) {
+        pin += Math.floor(Math.random() * 10).toString();
+      }
+    }
+    return pin;
+  }
+
+  function updatePIN() {
+    result.textContent = generatePIN();
+    result.classList.remove('copied');
+  }
+
+  function copyPIN() {
+    const text = result.textContent;
+    if (!text || text === 'クリックして生成') return;
+    navigator.clipboard.writeText(text).then(() => {
+      result.classList.add('copied');
+      if (toast) { toast.textContent = 'コピーしました！'; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 2000); }
+    });
+  }
+
+  generateBtn.addEventListener('click', updatePIN);
+  copyBtn.addEventListener('click', copyPIN);
+  result.addEventListener('click', copyPIN);
+  lengthSelect.addEventListener('change', updatePIN);
+  noRepeatCheck.addEventListener('change', updatePIN);
+  updatePIN();
+})();
+</script>
+
+<style>
+  .pin-generator { width: 100%; }
+  .generator-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px; }
+  .generator-actions .btn { gap: 8px; }
+  .result-box { cursor: pointer; }
+  .result-box:hover { border-color: var(--primary); }
+  .result-box:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+</style>

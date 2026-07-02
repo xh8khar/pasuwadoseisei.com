@@ -1,0 +1,59 @@
+# パスワード生成 | pasuwadoseisei.com
+> 安全なパスワードを無料で自動生成するオンラインツールサイト。日本語対応。
+> すべてのツールはブラウザ上で完結、サーバー送信なし。
+
+## サイト情報
+- URL: https://www.pasuwadoseisei.com
+- 言語: 日本語 (ja)
+- 運営者: Yosin
+- 開設: 2024年
+- フレームワーク: Astro SSG
+- ホスティング: Cloudflare Pages
+
+## 全ツール一覧 (24種類)
+
+### デイリーツール (12)
+- 文字数カウンター: /tools/character-counter/
+- 全角半角変換: /tools/zenkaku-hankaku/
+- URLエンコード/デコード: /tools/url-encode-decode/
+- Base64変換: /tools/base64/
+- ハッシュ生成: /tools/hash-generator/
+- JSON整形/バリデーション: /tools/json-formatter/
+- 正規表現テスター: /tools/regex-tester/
+- タイムスタンプ変換: /tools/timestamp-converter/
+- カラーコード変換: /tools/color-converter/
+- UUID生成: /tools/uuid-generator/
+- テキスト比較: /tools/text-diff/
+- パスワード強度チェッカー: /tools/password-strength-checker/
+
+### パスワード生成ツール (12)
+- パスワード生成（標準）: /tools/password-generator/
+- 8桁パスワード生成: /tools/8-digit-password-generator/
+- 12桁パスワード生成: /tools/12-digit-password-generator/
+- 16桁パスワード生成: /tools/16-digit-password-generator/
+- 強力なパスワード生成: /tools/strong-password-generator/
+- ランダムパスワード生成: /tools/random-password-generator/
+- 暗証番号(PIN)生成: /tools/pin-generator/
+- ID・ユーザー名生成: /tools/id-generator/
+- 一括パスワード生成: /tools/bulk-password-generator/
+- 覚えやすいパスワード生成: /tools/memorable-password-generator/
+- 記号入りパスワード生成: /tools/special-character-password/
+- Excel向けパスワード生成: /tools/excel-password-generator/
+
+## ブログ
+- ブログ一覧: /blog/
+- RSS: /rss.xml
+- 全22記事（パスワードセキュリティ、ツール比較、テクニック）
+
+## 固定ページ
+- このサイトについて: /about/
+- お問い合わせ: /contact/
+- プライバシーポリシー: /privacy/
+
+## 技術仕様
+- Built with Astro (Static Site Generation)
+- すべてのJavaScript処理はブラウザの`crypto.subtle` / `Crypto.getRandomValues()` を使用
+- 構造化データ: JSON-LD (WebSite, Organization, BreadcrumbList, FAQPage, HowTo, SoftwareApplication, Article, SearchAction)
+- セキュリティヘッダー: X-Content-Type-Options, X-Frame-Options, Referrer-Policy
+- フォント: Noto Sans JP (Google Fonts, preconnect + preload + font-display: swap)
+- OG画像: /images/password-generator-og.jpg (1200x630)

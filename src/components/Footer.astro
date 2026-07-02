@@ -1,0 +1,84 @@
+<footer class="footer" role="contentinfo">
+  <div class="container footer-inner">
+    <div class="footer-grid">
+      <div class="footer-section footer-brand">
+        <a href="/" class="footer-logo">
+          <svg width="24" height="24" viewBox="0 0 100 100" aria-hidden="true">
+            <rect width="100" height="100" rx="20" fill="url(#hg)"/>
+            <rect x="28" y="44" width="44" height="38" rx="6" fill="white"/>
+            <rect x="34" y="44" width="32" height="28" rx="4" fill="url(#hg)"/>
+            <path d="M50 52v8" stroke="white" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="50" cy="64" r="3" fill="white"/>
+            <path d="M38 44V32a12 12 0 1 1 24 0v12" stroke="white" stroke-width="5" stroke-linecap="round" fill="none"/>
+            <defs><linearGradient id="hg" x1="50%" y1="0%" x2="50%" y2="100%"><stop offset="0%" stop-color="#3b82f6"/><stop offset="100%" stop-color="#1d4ed8"/></linearGradient></defs>
+          </svg>
+          <span>パスワード生成</span>
+        </a>
+        <p>安全で強力なパスワードを簡単に生成できる無料ツール。すべての処理はブラウザ上で完結し、サーバーに送信されることはありません。</p>
+      </div>
+      <div class="footer-section">
+        <h4>ツール</h4>
+        <a href="/tools/password-generator">パスワード生成（標準）</a>
+        <a href="/tools/8-digit-password-generator">8桁パスワード生成</a>
+        <a href="/tools/12-digit-password-generator">12桁パスワード生成</a>
+        <a href="/tools/strong-password-generator">強力なパスワード生成</a>
+        <a href="/tools/random-password-generator">ランダムパスワード生成</a>
+        <a href="/tools/pin-generator">暗証番号(PIN)生成</a>
+      </div>
+      <div class="footer-section">
+        <h4>リソース</h4>
+        <a href="/blog">ブログ一覧</a>
+        <a href="/blog/8-digit-password-guide">8桁ガイド</a>
+        <a href="/blog/how-to-create-strong-password">強力なパスワードの作り方</a>
+        <a href="/blog/password-reuse-risks">使い回しの危険性</a>
+        <a href="/tools">すべてのツール</a>
+      </div>
+      <div class="footer-section">
+        <h4>情報</h4>
+        <a href="/about">このサイトについて</a>
+        <a href="/contact">お問い合わせ</a>
+        <a href="/privacy">プライバシーポリシー</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2024-2025 <a href="/">パスワード生成</a> — pasuwadoseisei.com</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--bg-card);
+    border-top: 1px solid var(--border);
+    margin-top: 96px;
+    padding: 56px 0 24px;
+  }
+  .footer-inner { display: flex; flex-direction: column; gap: 40px; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; }
+  .footer-section { display: flex; flex-direction: column; gap: 8px; }
+  .footer-section h4 { font-size: 14px; font-weight: 700; margin-bottom: 6px; color: var(--text); letter-spacing: -0.01em; }
+  .footer-section a { font-size: 14px; color: var(--text-secondary); transition: all var(--transition); }
+  .footer-section a:hover { color: var(--primary); padding-left: 4px; }
+  .footer-brand p { font-size: 14px; color: var(--text-secondary); line-height: 1.8; margin-top: 12px; }
+  .footer-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 900;
+    font-size: 18px;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .footer-logo:hover { color: var(--primary); padding-left: 0 !important; }
+  .footer-bottom { padding-top: 24px; border-top: 1px solid var(--border); text-align: center; font-size: 13px; color: var(--text-tertiary); }
+  .footer-bottom a { color: var(--text-tertiary); }
+  .footer-bottom a:hover { color: var(--primary); padding-left: 0 !important; }
+
+  @media (max-width: 768px) {
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+    .footer-brand { grid-column: 1 / -1; }
+  }
+  @media (max-width: 480px) {
+    .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+  }
+</style>
