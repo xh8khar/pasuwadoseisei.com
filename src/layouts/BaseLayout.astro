@@ -2,6 +2,7 @@
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import StructuredData from '../components/StructuredData.astro';
+import '../styles/global.css';
 
 export interface Props {
   title: string;
@@ -83,8 +84,6 @@ const finalOgImage = ogImage || `${site}/images/password-generator-og.jpg`;
   <meta name="twitter:image" content={finalOgImage} />
 
   <meta name="google-site-verification" content="xxxxxxxxxxxx" />
-
-  <link rel="stylesheet" href="/src/styles/global.css" />
 
   <StructuredData type="website" />
   <StructuredData type="organization" />
